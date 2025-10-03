@@ -42,14 +42,23 @@ app.use(methodOverride('_method'));
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.MONGODB_URI,
   collectionName: 'sessions',
+  touchAfter: 24 * 3600 // lazy session update
 });
+
+app.set('trust proxy', 1); // Trust first proxy (Vercel)
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'changeme',
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    cookie: { 
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+      httpOnly: true,
+      sameSite: 'lax'
+    },
   })
 );
 app.use(flash());
