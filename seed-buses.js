@@ -1,6 +1,6 @@
-mongoose.connect('mongodb://localhost:27017/bus-booking')
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+require('dotenv').config();
+const mongoose = require('mongoose');
+const Bus = require('./models/Bus');
 
 // Realistic buses based on actual Indian bus operators
 const buses = [
@@ -37,7 +37,6 @@ const buses = [
   { bus_id: 'DL03EE9012', bus_name: 'Manali Volvo Service', from: 'Delhi', to: 'Manali', date: '2025-01-22', time: '18:00', fare: 1500, total_seats: 40, available_seats: 32, women_seats: [1, 2, 5, 6] },
   { bus_id: 'RJ14FF3456', bus_name: 'RSRTC Gold Line', from: 'Jaipur', to: 'Delhi', date: '2025-01-22', time: '22:00', fare: 650, total_seats: 45, available_seats: 40, women_seats: [1, 2, 3, 4] },
   { bus_id: 'GJ01GG7890', bus_name: 'Gujarat Travels Volvo', from: 'Ahmedabad', to: 'Mumbai', date: '2025-01-23', time: '21:00', fare: 900, total_seats: 40, available_seats: 35, women_seats: [1, 2, 5, 6] },
-  },
   {
     bus_id: 'BLR01',
     bus_name: 'Chennai Express',
@@ -94,8 +93,8 @@ async function seedBuses() {
     console.log('Cleared existing buses');
 
     // Insert sample buses
-    await Bus.insertMany(sampleBuses);
-    console.log(`✅ Successfully added ${sampleBuses.length} buses to the database!`);
+    await Bus.insertMany(buses);
+    console.log(`✅ Successfully added ${buses.length} buses to the database!`);
 
     console.log('\nSample routes added:');
     console.log('- Mumbai → Pune (4 buses)');
