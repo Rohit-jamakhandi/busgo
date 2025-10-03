@@ -21,8 +21,18 @@ const bookingRoutes = require('./routes/bookings');
 
 const app = express();
 
-// DB
-connectDB();
+// Middleware to ensure DB connection on each request (serverless-friendly)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('Database connection failed:', err);
+    return res.status(503).json({ 
+      error: 'Database connection failed. Please check your environment variables.' 
+    });
+  }
+});
 
 // View engine
 app.set('view engine', 'ejs');
@@ -105,5 +115,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || 'Server Error' });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Export for Vercel serverless
+module.exports = app;
+
+// Only listen when running locally
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
