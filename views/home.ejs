@@ -1,0 +1,134 @@
+<div class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-icon">
+        <i data-lucide="bus" style="width: 64px; height: 64px; stroke-width: 1.5;"></i>
+      </div>
+      <h1 data-i18n="heroTitle">Book Your Bus Tickets</h1>
+      <p data-i18n="heroSubtitle">Fast, Easy & Secure Bus Booking Platform</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <!-- Search Form (Available for everyone) -->
+      <div class="search-card fade-in">
+          <h2 class="text-center mb-4 d-flex align-items-center justify-content-center gap-2" style="color: #667eea; font-weight: 700;">
+            <i data-lucide="search" style="width: 28px; height: 28px;"></i>
+            <span data-i18n="searchTitle">Find Your Perfect Journey</span>
+          </h2>
+          <form class="row g-4" action="/buses/search" method="get" id="searchForm">
+            <div class="col-md-3">
+              <label class="form-label d-flex align-items-center gap-2">
+                <i data-lucide="map-pin" style="width: 18px; height: 18px;"></i>
+                <span data-i18n="from">From</span>
+              </label>
+              <input class="form-control" name="from" placeholder="Enter departure city" required list="fromCities" />
+              <datalist id="fromCities">
+                <option value="Mumbai">
+                <option value="Delhi">
+                <option value="Bangalore">
+                <option value="Pune">
+                <option value="Hyderabad">
+                <option value="Chennai">
+              </datalist>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label d-flex align-items-center gap-2">
+                <i data-lucide="navigation" style="width: 18px; height: 18px;"></i>
+                <span data-i18n="to">To</span>
+              </label>
+              <input class="form-control" name="to" placeholder="Enter destination city" required list="toCities" />
+              <datalist id="toCities">
+                <option value="Mumbai">
+                <option value="Delhi">
+                <option value="Bangalore">
+                <option value="Pune">
+                <option value="Hyderabad">
+                <option value="Chennai">
+              </datalist>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label d-flex align-items-center gap-2">
+                <i data-lucide="calendar" style="width: 18px; height: 18px;"></i>
+                <span data-i18n="date">Date of Journey</span>
+              </label>
+              <input type="date" class="form-control" name="date" required id="dateInput" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label d-flex align-items-center gap-2">
+                <i data-lucide="users" style="width: 18px; height: 18px;"></i>
+                <span>Seat Preference</span>
+              </label>
+              <select class="form-select" name="seatPref">
+                <option value="all">All Seats</option>
+                <option value="women">Women Only Seats</option>
+              </select>
+            </div>
+            <div class="col-12 text-center">
+              <button class="btn btn-primary btn-lg px-5 d-inline-flex align-items-center gap-2" type="submit">
+                <i data-lucide="search" style="width: 20px; height: 20px;"></i>
+                <span id="searchBtnText" data-i18n="searchBtn">Search Buses</span>
+                <span id="searchSpinner" class="spinner-border spinner-border-sm d-none ms-2"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+
+  <div class="row mt-5 g-4">
+    <div class="col-md-4">
+      <div class="card text-center feature-card">
+        <div class="card-body">
+          <div class="feature-icon">
+            <i data-lucide="zap" style="width: 48px; height: 48px;"></i>
+          </div>
+          <h5 class="mt-3" data-i18n="instantBooking">Instant Booking</h5>
+          <p class="text-muted" data-i18n="instantBookingDesc">Book your tickets in seconds with our streamlined process</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center feature-card">
+        <div class="card-body">
+          <div class="feature-icon">
+            <i data-lucide="shield-check" style="width: 48px; height: 48px;"></i>
+          </div>
+          <h5 class="mt-3" data-i18n="securePayments">Secure Payments</h5>
+          <p class="text-muted" data-i18n="securePaymentsDesc">100% safe & encrypted transactions for peace of mind</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center feature-card">
+        <div class="card-body">
+          <div class="feature-icon">
+            <i data-lucide="ticket" style="width: 48px; height: 48px;"></i>
+          </div>
+          <h5 class="mt-3" data-i18n="eTickets">E-Tickets</h5>
+          <p class="text-muted" data-i18n="eTicketsDesc">Get instant digital tickets delivered to your email</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Set minimum date to today (only if form exists)
+const dateInput = document.getElementById('dateInput');
+if (dateInput) {
+  dateInput.min = new Date().toISOString().split('T')[0];
+}
+
+// Add loading state to search (only if form exists)
+const searchForm = document.getElementById('searchForm');
+if (searchForm) {
+  searchForm.addEventListener('submit', function() {
+    document.getElementById('searchBtnText').textContent = 'Searching...';
+    document.getElementById('searchSpinner').classList.remove('d-none');
+  });
+}
+</script>

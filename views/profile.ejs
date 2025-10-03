@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h1 class="mb-4" data-i18n="myBookings">My Bookings</h1>
+<% if (!bookings || bookings.length === 0) { %>
+  <div class="alert alert-info" data-i18n="noBookingsYet">No bookings yet.</div>
+<% } else { %>
+  <div class="list-group">
+    <% bookings.forEach(b => { %>
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="flex-grow-1">
+            <div class="fw-bold mb-2"><%= b.bus.bus_name %> (<%= b.bus.bus_id %>)</div>
+            <div class="mb-1"><%= b.bus.from %> → <%= b.bus.to %> | <%= b.bus.date %> <%= b.bus.time %></div>
+            <div class="mb-1">Seats: <%= b.seats.join(', ') %> | Paid: ₹<%= b.amount %> | Status: <span class="badge bg-<%= b.paymentStatus==='success'?'success':(b.paymentStatus==='failed'?'danger':'warning') %>"><%= b.paymentStatus %></span></div>
+            <% if (b.paymentId) { %><div class="text-muted small">Payment ID: <%= b.paymentId %></div><% } %>
+            <div class="text-muted small mt-1"><%= b.createdAt.toLocaleString() %></div>
+          </div>
+          <div class="ms-3">
+            <% if (b.paymentStatus === 'success') { %>
+              <a href="/bookings/receipt/<%= b._id %>" class="btn btn-sm btn-primary d-flex align-items-center gap-2" target="_blank">
+                <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+                <span data-i18n="downloadReceipt">Download Receipt</span>
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
